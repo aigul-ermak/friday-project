@@ -1,8 +1,5 @@
-type packlistType = {
 
-}
-
-export const Packlist: packlistType = () => {
+export const Packlist = () => {
     return (
         <div>
             <h3>Packlist</h3>

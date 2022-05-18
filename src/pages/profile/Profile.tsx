@@ -1,8 +1,5 @@
-type profileType = {
 
-}
-
-export const Profile: profileType = () => {
+export const Profile = () => {
     return (
         <div>
             <h3>Profile</h3>
