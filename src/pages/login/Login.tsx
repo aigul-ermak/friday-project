@@ -1,8 +1,9 @@
 import {useDispatch} from 'react-redux';
-import {login} from './UserReducer';
+import {loginThunk} from './UserReducer';
 import {useAppSelector} from '../../store/store';
 import {Navigate} from 'react-router-dom';
 import {PATH} from '../../components/header/Header';
+import {useFormik} from 'formik';
 
 
 export const Login = () => {
@@ -11,9 +12,22 @@ export const Login = () => {
 
     const dispatch = useDispatch()
 
-    const onClickLogin = () => {
-        dispatch(login({email: 'nya-admin@nya.nya', password: '1qazxcvBG', rememberMe: false}))
-    }
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: '',
+            rememberMe: false
+        },
+        onSubmit: values => {
+            dispatch(loginThunk({
+                    email: 'nya-admin@nya.nya',
+                    password: '1qazxcvBG',
+                    rememberMe: false
+                })
+            )
+            console.log(values)
+        }
+    })
 
     if (isLoggedIn) {
         return <Navigate to={PATH.PROFILE}/>
@@ -21,9 +35,33 @@ export const Login = () => {
 
     return (
         <div>
-            <h3>Login</h3>
-            <p></p>
-            <button onClick={onClickLogin}>click</button>
+            <form onSubmit={formik.handleSubmit}>
+                <label htmlFor="email">e-mail</label>
+                <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    onChange={formik.handleChange}
+                    value={formik.values.email}
+                />
+
+                <label htmlFor="password">password</label>
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    onChange={formik.handleChange}
+                    value={formik.values.email}
+                />
+
+                <label htmlFor="rememberMe">remember me</label>
+
+                <input type="checkbox"
+                       name="rememberMe"
+                       value=""/>
+
+                <button type="submit">Submit</button>
+            </form>
         </div>
     )
 }

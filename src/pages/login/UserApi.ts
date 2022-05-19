@@ -10,6 +10,9 @@ export const userAPI = {
     login(login: LoginType) {
         return instance.post<LoginType>('auth/login', login)
             .then(res => res.data)
+    },
+    logout() {
+        return instance.delete<any>('auth/me')
     }
 }
 

@@ -29,7 +29,7 @@ export const loginActionCreator = {
 }
 
 //thunk
-export const login = (login: LoginType):any => async (dispatch: any) => {
+export const loginThunk = (login: LoginType):any => async (dispatch: any) => {
     try {
         let loginData = await userAPI.login(login)
         console.log(loginData)
@@ -42,6 +42,20 @@ export const login = (login: LoginType):any => async (dispatch: any) => {
         }
     }
 }
+
+export const loginOutThunk = ():any => async (dispatch: any) => {
+    try {
+        await userAPI.logout()
+        dispatch(loginActionCreator.setIsLoggedIn(false))
+    } catch (e) {
+        if (axios.isAxiosError(e)) {
+            // dispatch(loginActionCreator.setLoginError(e.response ? e.response.data.error : e.message))
+            console.log(e.message)
+        }
+    }
+}
+
+
 
 //types
 export type LoginInitialStateType = typeof loginInitialState
