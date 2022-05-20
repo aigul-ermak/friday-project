@@ -2,10 +2,12 @@ import {TypedUseSelectorHook, useSelector} from 'react-redux';
 import {applyMiddleware, combineReducers, legacy_createStore as createStore} from 'redux';
 import thunkMiddleware, {ThunkAction} from 'redux-thunk';
 import {LoginActionsType, userReducer} from '../pages/login/UserReducer';
+import {profileReducer} from '../pages/profile/ProfileReducer';
 
 
 const rootReducer = combineReducers({
-    login: userReducer
+    login: userReducer,
+    profile: profileReducer
 })
 
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
@@ -20,3 +22,6 @@ export type ActionsType = LoginActionsType
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, ActionsType>
 // useSelector для доступа к state
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
+
+// @ts-ignore
+window.store = store

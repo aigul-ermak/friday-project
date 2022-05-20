@@ -9,7 +9,8 @@ export const loginInitialState = {
 }
 
 //reducer
-export const userReducer = (state: LoginInitialStateType = loginInitialState, action: LoginActionsType): LoginInitialStateType => {
+export const userReducer = (state: LoginInitialStateType = loginInitialState,
+                            action: LoginActionsType): LoginInitialStateType => {
     switch (action.type) {
         case 'LOGIN/SET-IS-LOGGED-IN':
             return {...state, ...action.payload}
@@ -21,7 +22,7 @@ export const userReducer = (state: LoginInitialStateType = loginInitialState, ac
 }
 
 //actions
-export const loginActionCreator = {
+export const loginAC = {
     setIsLoggedIn: (isLoggedIn: boolean) =>
         ({type: 'LOGIN/SET-IS-LOGGED-IN', payload: {isLoggedIn}} as const),
     setLoginError: (error: string) =>
@@ -34,7 +35,7 @@ export const loginThunk = (login: LoginType):any => async (dispatch: any) => {
         let loginData = await userAPI.login(login)
         console.log(loginData)
         //dispatch данные в state profile
-        dispatch(loginActionCreator.setIsLoggedIn(true))
+        dispatch(loginAC.setIsLoggedIn(true))
     } catch (e) {
         if (axios.isAxiosError(e)) {
             // dispatch(loginActionCreator.setLoginError(e.response ? e.response.data.error : e.message))
@@ -46,7 +47,7 @@ export const loginThunk = (login: LoginType):any => async (dispatch: any) => {
 export const loginOutThunk = ():any => async (dispatch: any) => {
     try {
         await userAPI.logout()
-        dispatch(loginActionCreator.setIsLoggedIn(false))
+        dispatch(loginAC.setIsLoggedIn(false))
     } catch (e) {
         if (axios.isAxiosError(e)) {
             // dispatch(loginActionCreator.setLoginError(e.response ? e.response.data.error : e.message))
@@ -59,4 +60,4 @@ export const loginOutThunk = ():any => async (dispatch: any) => {
 
 //types
 export type LoginInitialStateType = typeof loginInitialState
-export type LoginActionsType = InferActionTypes<typeof loginActionCreator>
+export type LoginActionsType = InferActionTypes<typeof loginAC>
